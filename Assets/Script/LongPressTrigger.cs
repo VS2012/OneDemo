@@ -42,11 +42,13 @@ public class LongPressTrigger : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
-        StopCoroutine(mCounterCor);
+        if(mCounterCor != null)
+            StopCoroutine(mCounterCor);
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        StopCoroutine(mCounterCor);
+        if (mCounterCor != null)
+            StopCoroutine(mCounterCor);
     }
 }
