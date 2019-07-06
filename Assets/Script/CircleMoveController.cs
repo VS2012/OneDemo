@@ -34,24 +34,23 @@ public class CircleMoveController : MonoBehaviour, IBeginDragHandler, IDragHandl
         cachePos = screenToCanvasPos * radius / screenToCanvasPos.magnitude;
         transform.localPosition = cachePos;
         if (OnPosChange != null)
-            OnPosChange(GetAngle(cachePos));
+            OnPosChange(GetPercentage(cachePos));
     }
 
-    float GetAngle(Vector2 pos)
+    //获得当前弧度百分比
+    float GetPercentage(Vector2 pos)
     {
         //var tan = Mathf.Abs(pos.y / pos.x);
-        var tan = pos.y / -pos.x;
-        var d = Mathf.Atan(tan);
-        //var quater = Mathf.PI / 4;
-        //if (pos.x > 0 && pos.y > 0)
-        //    //d += quater;
-        //    d = Mathf.PI / 2 - d;
-        //else if (pos.x > 0 && pos.y < 0)
-        //    d = Mathf.PI / 2 + d;
-        //else if (pos.x < 0 && pos.y < 0)
-        //    d = Mathf.PI - d;
-        Debug.Log("tan:" + tan + ", d:" + d);
-        return d;
+        var sin = pos.y / radius;
+        var d = Mathf.Asin(sin);
+
+        if (pos.x > 0)
+            d = Mathf.PI - d;
+        else if (pos.x < 0 && pos.y < 0)
+            d = 2 * Mathf.PI + d;
+
+        Debug.Log("sin:" + sin + ", d:" + d);
+        return d / 6.28318548f;
     }
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
